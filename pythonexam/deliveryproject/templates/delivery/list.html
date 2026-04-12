@@ -1,0 +1,13 @@
+<h1>Liste des livraisons</h1>
+
+<a href="/add/">Ajouter</a>
+
+<ul>
+{% for d in deliveries %}
+    <li>
+        {{ d.client }} - {{ d.date_livraison }} - {{ d.statut }}
+        <a href="/update/{{ d.id }}">Modifier</a>
+        <a href="/delete/{{ d.id }}">Supprimer</a>
+    </li>
+{% endfor %}
+</ul>
