@@ -1,6 +1,17 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Delivery
 from .forms import DeliveryForm
+ 
+# HOME PAGE 
+def delivery_homepage(request):
+    return render(request, 'homepage/homepage.html')
+ 
+
+# LIST
+def delivery_list(request):
+    deliveries = Delivery.objects.all()
+    return render(request, 'delivery/list.html', {'deliveries': deliveries})
+ 
 
 # LIST
 def delivery_list(request):
