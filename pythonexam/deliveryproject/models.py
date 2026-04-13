@@ -46,9 +46,15 @@ class Product(models.Model):
 # LIVRAISON
 # ======================
 class Delivery(models.Model):
+    STATUT_CHOICES = [
+        ("En cours", "En cours"),
+        ("Livré", "Livré"),
+        ("Annulé", "Annulé"),
+    ]
+
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
     date_livraison = models.DateField()
-    statut = models.CharField(max_length=50)
+    statut = models.CharField(max_length=50, choices=STATUT_CHOICES, default="En cours")
 
     def __str__(self):
         return f"Livraison {self.id} - {self.client}"
