@@ -1,0 +1,113 @@
+ html, body {
+        height: 100%;
+    }
+
+    body {
+        background-color: #1e1e2f;
+        color: #e4e6eb;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    /* 🔧 STRETCHED HERO */
+    .hero {
+        background: linear-gradient(135deg, #0a0f2c, #1c2b5a);
+        color: white;
+        padding: 90px 20px; /* ⬆ increased height */
+        text-align: center;
+        border-radius: 0 0 25px 25px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+    }
+
+    .card {
+        background-color: #2a2d3e;
+        color: #e4e6eb;
+    }
+
+    .card-hover:hover {
+        transform: translateY(-8px);
+        transition: 0.3s ease;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+    }
+
+    .btn-rounded {
+        border-radius: 30px;
+        padding: 8px 22px;
+    }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #1c2b5a, #2563eb);
+    border: none;
+    color: white;
+    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.25);
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #162347, #1d4ed8);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35);
+}
+
+  
+   .btn-success {
+    background: linear-gradient(135deg, #10b981, #047857);
+    border: none;
+    color: white;
+    box-shadow: 0 6px 18px rgba(16, 185, 129, 0.25);
+    transition: all 0.3s ease;
+}
+
+.btn-success:hover {
+    background: linear-gradient(135deg, #059669, #065f46);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(16, 185, 129, 0.35);
+}
+.btn-secondary {
+    background: linear-gradient(135deg, #ffffff, #e5e7eb);
+    border: none;
+    color: #1e1e2f;
+    box-shadow: 0 6px 18px rgba(255, 255, 255, 0.15);
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background: linear-gradient(135deg, #f3f4f6, #d1d5db);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(255, 255, 255, 0.25);
+    color: #111827;
+}
+
+    .text-muted {
+        color: white !important;
+        opacity: 0.85;
+    }
+
+    .content {
+        flex: 1;
+    }
+
+    .cards-wrapper {
+        margin-top: 50px; 
+    }
+
+    .footer {
+        background-color: #1c2b5a;
+        color: #d1d5db;
+        margin-top: auto;
+        
+    }
+
+   .footer-top {
+    background: rgba(0, 0, 0, 0.601);
+    color: #fff;
+
+}
+
+    .footer-links a {
+    color: white !important;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 5px;
+}
