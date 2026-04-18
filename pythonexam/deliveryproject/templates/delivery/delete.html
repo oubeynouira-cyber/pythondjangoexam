@@ -1,0 +1,29 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Supprimer Livraison{% endblock %}
+
+{% block content %}
+
+<h2>Supprimer une livraison</h2>
+
+<p>Êtes-vous sûr de vouloir supprimer cette livraison ?</p>
+
+<p>
+    <strong>Client:</strong> {{ delivery.client }} <br>
+    <strong>Date:</strong> {{ delivery.date_livraison }} <br>
+    <strong>Statut:</strong> {{ delivery.statut }}
+</p>
+
+<form method="post">
+    {% csrf_token %}
+
+    <button type="submit" class="btn btn-danger">
+        Oui, supprimer
+    </button>
+
+    <a href="{% url 'delivery_list' %}" class="btn btn-secondary">
+        Annuler
+    </a>
+</form>
+
+{% endblock %}

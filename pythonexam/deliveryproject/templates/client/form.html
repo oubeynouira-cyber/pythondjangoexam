@@ -1,0 +1,23 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Modifier Client{% endblock %}
+
+{% block content %}
+
+<h2>Modifier un client</h2>
+
+<form method="post">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit" class="btn btn-primary">
+        Mettre à jour
+    </button>
+
+    <a href="{% url 'client_list' %}" class="btn btn-secondary">
+        Retour
+    </a>
+</form>
+
+{% endblock %}

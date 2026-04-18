@@ -1,0 +1,128 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Liste des Produits{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>
+            <i class="bi bi-box-seam"></i> Gestion des Produits
+        </h1>
+
+        <a href="{% url 'product_add' %}" class="btn btn-success btn-lg">
+            <i class="bi bi-plus-circle"></i> Ajouter Produit
+        </a>
+    </div>
+ <!-- Search Bar -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <form method="get" class="input-group">
+                <input 
+                    type="text" 
+                    name="q" 
+                    class="form-control" 
+                    placeholder="Search for a product..."
+                    value="{{ request.GET.q }}"
+                >
+                <button class="btn btn-outline-primary" type="submit">
+                    <i class="bi bi-search"></i> Rechercher
+                </button>
+            </form>
+        </div>
+    </div>
+    <!-- Empty -->
+    {% if not products %}
+        <div class="alert alert-info">
+            Aucun produit trouvé.
+        </div>
+    {% endif %}
+
+    <!-- Table -->
+    {% if products %}
+    <div class="table-responsive">
+        <table class="table table-hover table-striped align-middle">
+
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Nom</th>
+                    <th>Stock</th>
+                    <th>Prix Achat</th>
+                    <th>Prix Vente</th>
+                    <th>Fournisseur</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td><strong>#{{ product.id }}</strong></td>
+
+                    <td>{{ product.nom }}</td>
+
+                    <td>
+                        {% if product.qte_stock > 0 %}
+                            <span class="badge bg-success">
+                                {{ product.qte_stock }}
+                            </span>
+                        {% else %}
+                            <span class="badge bg-danger">
+                                Rupture
+                            </span>
+                        {% endif %}
+                    </td>
+
+                    <td>{{ product.prix_achat }} DT</td>
+                    <td>{{ product.prix_vente }} DT</td>
+
+                    <td>
+                        <span class="badge bg-light text-dark">
+                            {{ product.fournisseur.nom }}
+                        </span>
+                    </td>
+
+                    <td class="text-center">
+                        <a href="{% url 'product_update' product.id %}" 
+                           class="btn btn-sm btn-primary me-2">
+                            <i class="bi bi-pencil"></i> Modifier
+                        </a>
+
+                        <a href="{% url 'product_delete' product.id %}" 
+                           class="btn btn-sm btn-danger"
+                           onclick="return confirm('Êtes-vous sûr ?')">
+                            <i class="bi bi-trash"></i> Supprimer
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+    </div>
+    {% endif %}
+
+    <!-- Stats -->
+    {% if products %}
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5>
+                        <i class="bi bi-graph-up"></i> Résumé
+                    </h5>
+                    <p>
+                        <strong>Total:</strong> {{ products|length }} produit(s)
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}

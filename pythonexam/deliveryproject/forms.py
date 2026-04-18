@@ -1,5 +1,7 @@
 from django import forms
-from .models import Delivery, DeliveryItem
+from .models import Delivery, DeliveryItem,Client,Supplier,Product
+
+#region DeliveryItems
 
 class DeliveryForm(forms.ModelForm):
     class Meta:
@@ -30,8 +32,34 @@ class DeliveryForm(forms.ModelForm):
         self.fields['date_livraison'].label = 'Date de livraison'
         self.fields['statut'].label = 'Statut'
 
-
+#endregion
+#region deliveryitems
 class DeliveryItemForm(forms.ModelForm):
     class Meta:
         model = DeliveryItem
         fields = '__all__'
+       
+#endregion 
+#region Suppliers
+
+
+class SupplierForm(forms.ModelForm):
+    class Meta:
+        model = Supplier
+        fields = '__all__'
+
+#endregion
+#region Clients
+class ClientForm(forms.ModelForm):
+    class Meta:
+        model = Client
+        fields = '__all__'
+#endregion
+#region Products
+class ProductForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = '__all__'
+#endregion
+
+

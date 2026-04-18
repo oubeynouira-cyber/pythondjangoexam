@@ -1,23 +1,20 @@
 {% extends "layouts/base.html" %}
 
-{% block title %}Liste des Clients{% endblock %}
+{% block title %}Liste des Fournisseurs{% endblock %}
 
 {% block content %}
 
+<div class="container mt-5">
 
-  <div class="container mt-5">
-
-    <!-- Header -->
-    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
-        <h1 class="mb-0">
-            <i class="bi bi-people"></i> Gestion des Clients
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>
+            <i class="bi bi-truck"></i> Gestion des Fournisseurs
         </h1>
 
-        <a href="{% url 'client_add' %}" class="btn btn-success btn-lg">
-            <i class="bi bi-plus-circle"></i> Ajouter Client
+        <a href="{% url 'supplier_add' %}" class="btn btn-success btn-lg">
+            <i class="bi bi-plus-circle"></i> Ajouter Fournisseur
         </a>
     </div>
-
  <!-- Search Bar -->
     <div class="row mb-4">
         <div class="col-md-6">
@@ -26,7 +23,7 @@
                     type="text" 
                     name="q" 
                     class="form-control" 
-                    placeholder="Rechercher un client..."
+                    placeholder="Search for a supplier..."
                     value="{{ request.GET.q }}"
                 >
                 <button class="btn btn-outline-primary" type="submit">
@@ -35,15 +32,13 @@
             </form>
         </div>
     </div>
-    {% if not clients %}
+    {% if not suppliers %}
         <div class="alert alert-info">
-            Aucun client trouvé.
+            Aucune fournisseur trouvé.
         </div>
     {% endif %}
 
-
-    <!-- Table -->
-    {% if clients %}
+    {% if suppliers %}
     <div class="table-responsive">
         <table class="table table-hover table-striped align-middle">
 
@@ -51,7 +46,6 @@
                 <tr>
                     <th>#</th>
                     <th>Nom</th>
-                    <th>Prénom</th>
                     <th>Adresse</th>
                     <th>Téléphone</th>
                     <th>Email</th>
@@ -60,26 +54,21 @@
             </thead>
 
             <tbody>
-                {% for client in clients %}
+                {% for supplier in suppliers %}
                 <tr>
-                    <td><strong>#{{ client.id }}</strong></td>
-
-                    <td>{{ client.nom }}</td>
-                    <td>{{ client.prenom }}</td>
-                    <td>{{ client.adresse }}</td>
-                    <td>{{ client.telephone }}</td>
-                    <td>{{ client.email }}</td>
+                    <td>#{{ supplier.id }}</td>
+                    <td>{{ supplier.nom }}</td>
+                    <td>{{ supplier.adresse }}</td>
+                    <td>{{ supplier.telephone }}</td>
+                    <td>{{ supplier.email }}</td>
 
                     <td class="text-center">
-                        <a href="{% url 'client_update' client.id %}" 
-                           class="btn btn-sm btn-primary me-2">
-                            <i class="bi bi-pencil"></i> Modifier
+                        <a href="{% url 'supplier_update' supplier.id %}" class="btn btn-sm btn-primary">
+                            Modifier
                         </a>
 
-                        <a href="{% url 'client_delete' client.id %}" 
-                           class="btn btn-sm btn-danger"
-                           onclick="return confirm('Êtes-vous sûr ?')">
-                            <i class="bi bi-trash"></i> Supprimer
+                        <a href="{% url 'supplier_delete' supplier.id %}" class="btn btn-sm btn-danger">
+                            Supprimer
                         </a>
                     </td>
                 </tr>
@@ -91,7 +80,7 @@
     {% endif %}
 
     <!-- Stats -->
-    {% if clients %}
+    {% if suppliers %}
     <div class="row mt-5">
         <div class="col-md-12">
             <div class="card">
@@ -100,14 +89,13 @@
                         <i class="bi bi-graph-up"></i> Résumé
                     </h5>
                     <p>
-                        <strong>Total:</strong> {{ clients|length }} client(s)
+                        <strong>Total:</strong> {{ suppliers|length }} supplier(s)
                     </p>
                 </div>
             </div>
         </div>
     </div>
     {% endif %}
-
 </div>
 
 {% endblock %}

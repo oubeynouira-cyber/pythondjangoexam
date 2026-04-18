@@ -11,78 +11,35 @@
             box-sizing: border-box;
         }
 
-        body {
+            body {
             background-color: #f8f9fa;
-            color: #333;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+            min-height: 100dvh;
         }
 
-        /* Navbar Styling */
-        .navbar {
-            background: linear-gradient(135deg, var(--secondary-color), #34495e);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            padding: 1rem 0;
-        }
+html, body {
+    height: 100dvh;
+    margin: 0;
+}
 
-        .navbar-brand {
-            font-weight: 700;
-            font-size: 1.5rem;
-            color: white !important;
-            letter-spacing: 0.5px;
-        }
+/* Main wrapper */
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+}
 
-        .navbar-nav .nav-link {
-            color: #ecf0f1 !important;
-            margin-left: 1rem;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .navbar-nav .nav-link:hover {
-            color: white !important;
-        }
-
-        .navbar-nav .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -5px;
-            left: 0;
-            background-color: #10b981;
-            transition: width 0.3s ease;
-        }
-
-        .navbar-nav .nav-link:hover::after {
-            width: 100%;
-        }
-
-        /* Main Content */
-        main {
-            flex: 1;
-            padding: 2rem 0;
-        }
-
+/* Content grows to push footer down */
+.content {
+    flex: 1;
+}
+    
         .container {
             background-color: white;
             border-radius: 10px;
             padding: 2rem;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
-
-        /* Footer */
-        footer {
-            background: linear-gradient(135deg, var(--secondary-color), #34495e);
-            color: white;
-            text-align: center;
-            padding: 2rem;
-            margin-top: 3rem;
-            border-top: 1px solid #ddd;
-        }
-
         /* Buttons */
         .btn-primary {
             background-color: var(--primary-color);
@@ -176,79 +133,52 @@
                 font-size: 1.75rem;
             }
         }
-    /*sidebar css */
-    .sidebar {
-    width: 250px;
-    min-height: 100vh;
-    border-right: 1px solid #eee;
+  
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--secondary-color), #34495e);
+            color: white;
+            text-align: center;
+  
+            margin-top: auto;
+            border-top: 1px solid #ddd;
+        }
+
+
+
+        /* ===== STICKY FOOTER FIX ===== */
+
+/* Full height */
+html, body {
+    height: 100dvh;
+    margin: 0;
 }
 
-.sidebar .nav-link {
-    color: #333;
-    padding: 12px 15px;
-    border-radius: 8px;
-    margin-bottom: 5px;
-    transition: 0.3s;
-    font-weight: 500;
+
+/* Main layout wrapper (already using d-flex) */
+body > .d-flex {
+    min-height: 100dvh;
 }
 
-.sidebar .nav-link i {
-    margin-right: 10px;
-}
-
-.sidebar .nav-link:hover {
-    background-color: #f1f5f9;
-    color: #2563eb;
-    transform: translateX(3px);
-}
-
-/* ACTIVE TAB */
-.sidebar .nav-link.active {
-    background: linear-gradient(135deg, #34495e, #10b981);
-    color: white !important;
-}
-
-/* MAIN CONTENT SHIFT */
+/* Main content area becomes column flex */
 .main-content {
-    padding: 20px;
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
 }
 
-/* RESPONSIVE */
-@media (max-width: 768px) {
-    .sidebar {
-        width: 100px;
-    }
-
-    .sidebar .nav-link span {
-        display: none;
-    }
-}
-    
-.sidebar-header {
-    background-color: #34495e;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+/* Content should grow */
+.main-content .container {
+    flex: 1;
 }
 
-
-
-
-.sidebar {
-    transition: width 0.3s ease;
-}
-
-.sidebar.collapsed {
-    width: 70px;
-}
-
-/* hide text when collapsed */
-.sidebar.collapsed .nav-link {
+/* Footer stays at bottom */
+footer {
+    margin-top: auto;
+    background: linear-gradient(135deg, var(--secondary-color), #34495e);
+    color: white;
     text-align: center;
+    padding: 0.5rem;
 }
 
-.sidebar.collapsed .nav-link span {
-    display: none;
-}
-.sidebar.collapsed .brand-text {
-    display: none;
-}
+

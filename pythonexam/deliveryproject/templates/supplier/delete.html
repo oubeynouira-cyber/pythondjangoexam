@@ -1,0 +1,29 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Supprimer Fournisseur{% endblock %}
+
+{% block content %}
+
+<h2>Supprimer un fournisseur</h2>
+
+<p>Êtes-vous sûr de vouloir supprimer ce fournisseur ?</p>
+
+<p>
+    <strong>Nom:</strong> {{ supplier.nom }} <br>
+    <strong>Email:</strong> {{ supplier.email }} <br>
+    <strong>Téléphone:</strong> {{ supplier.telephone }}
+</p>
+
+<form method="post">
+    {% csrf_token %}
+
+    <button type="submit" class="btn btn-danger">
+        Oui, supprimer
+    </button>
+
+    <a href="{% url 'supplier_list' %}" class="btn btn-secondary">
+        Annuler
+    </a>
+</form>
+
+{% endblock %}

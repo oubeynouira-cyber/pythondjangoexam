@@ -1,0 +1,63 @@
+{% load static %}
+<div class="sidebar bg-white shadow-sm d-flex flex-column">
+
+    <!-- TOP SECTION -->
+    <div>
+
+        <div class="sidebar-header p-3">
+            <h5 class="mb-0 fw-bold text-white d-flex align-items-center">
+                <a  href="{% url 'delivery_homepage' %}"><img   src="{% static 'images/logo.png' %}"
+                     alt="DS Logo"
+                     width="30"
+                     height="30">
+                     </a>
+                <span class="brand-text">Delivery System</span>
+            </h5>
+        </div>
+
+        <ul class="nav flex-column p-2">
+
+            <li class="nav-item">
+                <a class="nav-link {% if request.path == '/deliveries/' %}active{% endif %}" 
+       href="{% url 'delivery_list' %}">
+                    <i class="bi bi-truck"></i> <span>Deliveries</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                   <a class="nav-link {% if request.path == '/clients/' %}active{% endif %}" 
+       href="{% url 'client_list' %}">
+                    <i class="bi bi-people"></i> <span>Clients</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                 <a class="nav-link {% if request.path == '/products/' %}active{% endif %}" 
+       href="{% url 'product_list' %}">
+                    <i class="bi bi-box-seam"></i> <span>Products</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link {% if request.path == '/suppliers/' %}active{% endif %}" href="{% url 'supplier_list' %}">
+                    <i class="bi bi-truck-flatbed"></i> <span>Suppliers</span>
+                </a>
+            </li>
+
+        </ul>
+
+    </div>
+
+    <!-- BOTTOM SECTION (LOGOUT) -->
+    <div class="mt-auto p-3">
+
+        <a href="#" class="btn btn-danger w-100 d-flex align-items-center justify-content-center">
+
+            <i class="bi bi-box-arrow-right me-2"></i>
+            <span>Logout</span>
+
+        </a>
+
+    </div>
+
+</div>

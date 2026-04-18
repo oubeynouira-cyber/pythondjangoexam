@@ -1,18 +1,18 @@
 {% extends "layouts/base.html" %}
 
-{% block title %}Ajouter Livraison{% endblock %}
+{% block title %}Modifier Livraison{% endblock %}
 
 {% block content %}
 
-<h2>Ajouter une livraison</h2>
+<h2>Modifier une livraison</h2>
 
 <form method="post">
     {% csrf_token %}
 
     {{ form.as_p }}
 
-    <button type="submit" class="btn btn-success">
-        Enregistrer
+    <button type="submit" class="btn btn-primary">
+        Mettre à jour
     </button>
 
     <a href="{% url 'delivery_list' %}" class="btn btn-secondary">

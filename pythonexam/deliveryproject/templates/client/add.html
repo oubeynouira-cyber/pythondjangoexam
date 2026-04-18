@@ -1,10 +1,10 @@
 {% extends "layouts/base.html" %}
 
-{% block title %}Ajouter Livraison{% endblock %}
+{% block title %}Ajouter Client{% endblock %}
 
 {% block content %}
 
-<h2>Ajouter une livraison</h2>
+<h2>Ajouter un client</h2>
 
 <form method="post">
     {% csrf_token %}
@@ -15,7 +15,7 @@
         Enregistrer
     </button>
 
-    <a href="{% url 'delivery_list' %}" class="btn btn-secondary">
+    <a href="{% url 'client_list' %}" class="btn btn-secondary">
         Retour
     </a>
 </form>

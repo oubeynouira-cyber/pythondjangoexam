@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Système de Livraison{% endblock %}</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'layouts/css/sheet.css' %}">
+    <link rel="stylesheet" href="{% static 'components/css/sidebar.css' %}">
+    <link rel="stylesheet" href="{% static 'components/css/navbar.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+<div class="d-flex min-vh-100">
+
+    <!-- SIDEBAR -->
+    {% include "components/sidebar.html" %}
+
+    <!-- MAIN CONTENT AREA -->
+    <div class="main-content flex-grow-1">
+
+        <!-- NAVBAR -->
+        {% include "components/navbar.html" %}
+
+        <!-- PAGE CONTENT -->
+        <div class="container mt-5">
+            {% block content %}{% endblock %}
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>© 2026 Delivery Management System — All rights reserved</p>
+        </footer>
+
+    </div>
+
+</div>
+
+<script>
+document.getElementById("toggleSidebar").onclick = function () {
+    const sidebar = document.querySelector(".sidebar");
+    const navbar = document.querySelector(".navbar");
+    const navbarBrand = document.getElementById("navbarBrand");
+
+    sidebar.classList.toggle("collapsed");
+
+    if (sidebar.classList.contains("collapsed")) {
+        navbarBrand.classList.remove("d-none");
+        navbar.style.left = "70px";
+    } else {
+        navbarBrand.classList.add("d-none");
+        navbar.style.left = "250px";
+    }
+};
+
+</script>
+
+
+</body>
+</html>

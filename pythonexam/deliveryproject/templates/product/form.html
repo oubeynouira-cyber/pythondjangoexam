@@ -1,0 +1,23 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Modifier Produit{% endblock %}
+
+{% block content %}
+
+<h2>Modifier un produit</h2>
+
+<form method="post">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit" class="btn btn-primary">
+        Mettre à jour
+    </button>
+
+    <a href="{% url 'product_list' %}" class="btn btn-secondary">
+        Retour
+    </a>
+</form>
+
+{% endblock %}
