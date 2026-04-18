@@ -1,0 +1,45 @@
+.navbar {
+    background: linear-gradient(135deg, var(--secondary-color), #34495e);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); 
+    height: 64px;
+    padding: 0 1rem;
+    position: fixed;
+    top: 0;
+    left: 250px; 
+    right: 0;
+    z-index: 1000;
+    transition: left 0.3s ease;
+}
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: white !important;
+            letter-spacing: 0.5px;
+        }
+
+         .navbar-nav .nav-link {
+            color: #ecf0f1 !important;
+            margin-left: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: white !important;
+        }
+
+        .navbar-nav .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: #10b981;
+            transition: width 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover::after {
+            width: 100%;
+        }
