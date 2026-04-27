@@ -77,6 +77,43 @@
 
         </table>
     </div>
+
+    <!-- Pagination -->
+    <nav class="mt-4">
+        <ul class="pagination justify-content-center">
+            {% if suppliers.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">
+                        <i class="bi bi-chevron-double-left"></i>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ suppliers.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">
+                        Précédent
+                    </a>
+                </li>
+            {% endif %}
+
+            <li class="page-item active">
+                <span class="page-link">
+                    Page {{ suppliers.number }} sur {{ suppliers.paginator.num_pages }}
+                </span>
+            </li>
+
+            {% if suppliers.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ suppliers.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">
+                        Suivant
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ suppliers.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">
+                        <i class="bi bi-chevron-double-right"></i>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
     {% endif %}
 
     <!-- Stats -->
@@ -89,7 +126,7 @@
                         <i class="bi bi-graph-up"></i> Résumé
                     </h5>
                     <p>
-                        <strong>Total:</strong> {{ suppliers|length }} supplier(s)
+                        <strong>Total:</strong> {{ suppliers.paginator.count }} fournisseur(s)
                     </p>
                 </div>
             </div>

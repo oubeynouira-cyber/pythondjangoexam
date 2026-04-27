@@ -47,6 +47,12 @@ class SupplierForm(forms.ModelForm):
     class Meta:
         model = Supplier
         fields = '__all__'
+        widgets = {
+            'nom': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nom du fournisseur...'}),
+            'adresse': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Adresse complète...', 'rows': 3}),
+            'telephone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Numéro de téléphone...'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Adresse email...'}),
+        }
 
 #endregion
 #region Clients
@@ -54,6 +60,13 @@ class ClientForm(forms.ModelForm):
     class Meta:
         model = Client
         fields = '__all__'
+        widgets = {
+            'nom': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nom du client...'}),
+            'prenom': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Prénom du client...'}),
+            'adresse': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Adresse complète...', 'rows': 3}),
+            'telephone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Numéro de téléphone...'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Adresse email...'}),
+        }
 #endregion
 #region Products
 class ProductForm(forms.ModelForm):
@@ -61,10 +74,10 @@ class ProductForm(forms.ModelForm):
         model = Product
         fields = '__all__'
         widgets = {
-            'nom': forms.TextInput(attrs={'class': 'form-control'}),
-            'qte_stock': forms.NumberInput(attrs={'class': 'form-control'}),
-            'prix_achat': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
-            'prix_vente': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
+            'nom': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nom du produit...'}),
+            'qte_stock': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Quantité en stock...'}),
+            'prix_achat': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01', 'placeholder': 'Prix d\'achat...'}),
+            'prix_vente': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01', 'placeholder': 'Prix de vente...'}),
             'fournisseur': forms.Select(attrs={'class': 'form-select'}),
             'image': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }

@@ -5,6 +5,8 @@ from .forms import ClientForm,DeliveryForm,SupplierForm,ProductForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.core.paginator import Paginator
+from django.db.models import Q
 
 # HOME
 def delivery_homepage(request):
@@ -60,9 +62,22 @@ def signup_view(request):
 # LIST
 @login_required(login_url='login')
 def delivery_list(request):
-    deliveries = Delivery.objects.all()
+    query = request.GET.get('q')
+    if query:
+        deliveries_list = Delivery.objects.filter(
+            Q(client__nom__icontains=query) | 
+            Q(client__prenom__icontains=query) | 
+            Q(statut__icontains=query)
+        ).order_by('-id')
+    else:
+        deliveries_list = Delivery.objects.all().order_by('-id')
+
+    paginator = Paginator(deliveries_list, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     return render(request, 'delivery/list.html', {
-        'deliveries': deliveries
+        'deliveries': page_obj
     })
 
 
@@ -114,9 +129,22 @@ def delivery_delete(request, id):
 # LIST
 @login_required(login_url='login')
 def supplier_list(request):
-    suppliers = Supplier.objects.all()
+    query = request.GET.get('q')
+    if query:
+        suppliers_list = Supplier.objects.filter(
+            Q(nom__icontains=query) | 
+            Q(email__icontains=query) | 
+            Q(telephone__icontains=query)
+        ).order_by('-id')
+    else:
+        suppliers_list = Supplier.objects.all().order_by('-id')
+
+    paginator = Paginator(suppliers_list, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     return render(request, 'supplier/list.html', {
-        'suppliers': suppliers
+        'suppliers': page_obj
     })
 
 
@@ -168,9 +196,20 @@ def supplier_delete(request, id):
 # LIST
 @login_required(login_url='login')
 def product_list(request):
-    products = Product.objects.all()
+    query = request.GET.get('q')
+    if query:
+        products_list = Product.objects.filter(
+            Q(nom__icontains=query) | Q(fournisseur__nom__icontains=query)
+        ).order_by('-id')
+    else:
+        products_list = Product.objects.all().order_by('-id')
+
+    paginator = Paginator(products_list, 5)  # 5 produits par page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     return render(request, 'product/list.html', {
-        'products': products
+        'products': page_obj
     })
 
 # CREATE
@@ -220,9 +259,22 @@ def product_delete(request, id):
 # LIST
 @login_required(login_url='login')
 def client_list(request):
-    clients = Client.objects.all()
+    query = request.GET.get('q')
+    if query:
+        clients_list = Client.objects.filter(
+            Q(nom__icontains=query) | 
+            Q(prenom__icontains=query) | 
+            Q(email__icontains=query)
+        ).order_by('-id')
+    else:
+        clients_list = Client.objects.all().order_by('-id')
+
+    paginator = Paginator(clients_list, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     return render(request, 'client/list.html', {
-        'clients': clients
+        'clients': page_obj
     })
 
 # CREATE
