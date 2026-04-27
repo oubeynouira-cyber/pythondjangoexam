@@ -5,11 +5,13 @@ from .forms import ClientForm,DeliveryForm,SupplierForm,ProductForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-
+from django.db.models import Q
 # HOME
 def delivery_homepage(request):
-    return render(request, 'homepage/homepage.html')
-
+    suppliers = Supplier.objects.all()
+    return render(request, 'homepage/homepage.html', {
+        'suppliers': suppliers
+    })
 
 #region AUTH
 def login_view(request):
@@ -60,9 +62,18 @@ def signup_view(request):
 # LIST
 @login_required(login_url='login')
 def delivery_list(request):
+    q = request.GET.get('q', '')
     deliveries = Delivery.objects.all()
+
+    if q:
+        deliveries = deliveries.filter(
+            Q(statut__icontains=q) |
+            Q(client__nom__icontains=q)
+        )
+
     return render(request, 'delivery/list.html', {
-        'deliveries': deliveries
+        'deliveries': deliveries,
+        'q': q
     })
 
 
@@ -114,16 +125,25 @@ def delivery_delete(request, id):
 # LIST
 @login_required(login_url='login')
 def supplier_list(request):
+    q = request.GET.get('q', '')
     suppliers = Supplier.objects.all()
+    
+    if q:
+        suppliers = suppliers.filter(
+            Q(nom__icontains=q) |
+            Q(email__icontains=q) |
+            Q(adresse__icontains=q) |
+            Q(telephone__icontains=q)
+        )
+    
     return render(request, 'supplier/list.html', {
-        'suppliers': suppliers
+        'suppliers': suppliers,
+        'q': q
     })
-
-
-# CREATE
+#CREATE
 @login_required(login_url='login')
 def supplier_create(request):
-    form = SupplierForm(request.POST or None)
+    form = SupplierForm(request.POST or None, request.FILES or None)  # ✅ add request.FILES
 
     if form.is_valid():
         form.save()
@@ -133,12 +153,11 @@ def supplier_create(request):
         'form': form
     })
 
-
 # UPDATE
 @login_required(login_url='login')
 def supplier_update(request, id):
     supplier = get_object_or_404(Supplier, id=id)
-    form = SupplierForm(request.POST or None, instance=supplier)
+    form = SupplierForm(request.POST or None, request.FILES or None, instance=supplier)  # ✅ add request.FILES
 
     if form.is_valid():
         form.save()
@@ -147,7 +166,6 @@ def supplier_update(request, id):
     return render(request, 'supplier/form.html', {
         'form': form
     })
-
 
 # DELETE
 @login_required(login_url='login')
@@ -168,9 +186,24 @@ def supplier_delete(request, id):
 # LIST
 @login_required(login_url='login')
 def product_list(request):
+    q = request.GET.get('q', '')
     products = Product.objects.all()
+
+    if q:
+        filters = Q(nom__icontains=q) | Q(fournisseur__nom__icontains=q)
+
+        # only add numeric filters if q is a number
+        try:
+            q_num = float(q)
+            filters |= Q(prix_achat=q_num) | Q(prix_vente=q_num) | Q(qte_stock=q_num)
+        except ValueError:
+            pass
+
+        products = products.filter(filters)
+
     return render(request, 'product/list.html', {
-        'products': products
+        'products': products,
+        'q': q
     })
 
 # CREATE
@@ -220,11 +253,22 @@ def product_delete(request, id):
 # LIST
 @login_required(login_url='login')
 def client_list(request):
+    q = request.GET.get('q', '')
     clients = Client.objects.all()
-    return render(request, 'client/list.html', {
-        'clients': clients
-    })
 
+    if q:
+        clients = clients.filter(
+            Q(nom__icontains=q) |
+            Q(prenom__icontains=q) |
+            Q(email__icontains=q) |
+            Q(telephone__icontains=q) |
+            Q(adresse__icontains=q)
+        )
+
+    return render(request, 'client/list.html', {
+        'clients': clients,
+        'q': q
+    })
 # CREATE
 @login_required(login_url='login')
 def client_create(request):

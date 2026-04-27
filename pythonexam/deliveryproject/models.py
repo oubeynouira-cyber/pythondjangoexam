@@ -8,6 +8,7 @@ class Supplier(models.Model):
     adresse = models.TextField()
     telephone = models.CharField(max_length=20)
     email = models.EmailField()
+    image = models.ImageField(upload_to='suppliers/', blank=True, null=True)
 
     def __str__(self):
         return self.nom
