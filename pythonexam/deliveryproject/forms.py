@@ -60,6 +60,14 @@ class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = '__all__'
+        widgets = {
+            'nom': forms.TextInput(attrs={'class': 'form-control'}),
+            'qte_stock': forms.NumberInput(attrs={'class': 'form-control'}),
+            'prix_achat': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
+            'prix_vente': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
+            'fournisseur': forms.Select(attrs={'class': 'form-select'}),
+            'image': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+        }
 #endregion
 
 

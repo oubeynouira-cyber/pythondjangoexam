@@ -176,7 +176,7 @@ def product_list(request):
 # CREATE
 @login_required(login_url='login')
 def product_create(request):
-    form = ProductForm(request.POST or None)
+    form = ProductForm(request.POST or None, request.FILES or None)
 
     if form.is_valid():
         form.save()
@@ -190,7 +190,7 @@ def product_create(request):
 @login_required(login_url='login')
 def product_update(request, id):
     product = get_object_or_404(Product, id=id)
-    form = ProductForm(request.POST or None, instance=product)
+    form = ProductForm(request.POST or None, request.FILES or None, instance=product)
 
     if form.is_valid():
         form.save()
