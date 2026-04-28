@@ -1,23 +1,43 @@
 {% extends "layouts/base.html" %}
-
 {% block title %}Ajouter Client{% endblock %}
-
 {% block content %}
 
 <h2>Ajouter un client</h2>
 
 <form method="post">
     {% csrf_token %}
-
     {{ form.as_p }}
-
-    <button type="submit" class="btn btn-success">
-        Enregistrer
-    </button>
-
-    <a href="{% url 'client_list' %}" class="btn btn-secondary">
-        Retour
-    </a>
+    <button type="submit" class="btn btn-success">Enregistrer</button>
+    <a href="{% url 'client_list' %}" class="btn btn-secondary">Retour</a>
 </form>
+
+<!-- Error Modal -->
+{% if form.errors %}
+<div class="modal fade" id="errorModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title"><i class="bi bi-exclamation-triangle"></i> Erreur</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <p class="mb-0"><i class="bi bi-x-circle text-danger"></i> {{ error }}</p>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var modal = new bootstrap.Modal(document.getElementById('errorModal'));
+    modal.show();
+</script>
+{% endif %}
 
 {% endblock %}

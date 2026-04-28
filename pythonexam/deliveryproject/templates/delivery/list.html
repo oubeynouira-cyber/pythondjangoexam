@@ -94,6 +94,21 @@
                     </td>
 
                     <td class="text-center">
+                         {% if delivery.statut != "Livré" %}
+                        <a href="{% url 'delivery_mark_delivered' delivery.id %}"
+                        class="btn btn-sm btn-success me-2"
+                        onclick="return confirm('Marquer comme livré ?')">
+                            <i class="bi bi-check-circle"></i>
+                        </a>
+                        {% else %}
+                        <span class="btn btn-sm btn-success me-2 disabled">
+                            <i class="bi bi-check-circle-fill"></i>
+                        </span>
+                        {% endif %}
+                        <a href="{% url 'delivery_detail' delivery.id %}" 
+                        class="btn btn-sm btn-dark me-2">
+                            <i class="bi bi-eye"></i>
+                        </a>
                         <a href="{% url 'delivery_update' delivery.id %}" 
                            class="btn btn-sm btn-primary me-2">
                             <i class="bi bi-pencil"></i> Modifier

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from .models import Client,Delivery,Supplier,Product
-from .forms import ClientForm,DeliveryForm,SupplierForm,ProductForm
+from .forms import ClientForm,DeliveryForm,DeliveryItemFormSet,SupplierForm,ProductForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -24,7 +24,7 @@ def login_view(request):
 
         if user is not None:
             login(request, user)
-            return redirect('delivery_list')  # redirect after login
+            return redirect('delivery_list')  
         else:
             messages.error(request, "Invalid credentials")
             return redirect('login')
@@ -82,17 +82,21 @@ def delivery_list(request):
         'q': q
     })
 
-# CREATE (RENAMED to match URL)
+# CREATE 
 @login_required(login_url='login')
 def delivery_create(request):
     form = DeliveryForm(request.POST or None)
+    formset = DeliveryItemFormSet(request.POST or None)  
 
-    if form.is_valid():
-        form.save()
+    if form.is_valid() and formset.is_valid():  
+        delivery = form.save()
+        formset.instance = delivery  
+        formset.save()  
         return redirect('delivery_list')
 
     return render(request, 'delivery/add.html', {
-        'form': form
+        'form': form,
+        'formset': formset,  
     })
 
 
@@ -100,19 +104,21 @@ def delivery_create(request):
 @login_required(login_url='login')
 def delivery_update(request, id):
     delivery = get_object_or_404(Delivery, id=id)
-
     form = DeliveryForm(request.POST or None, instance=delivery)
+    formset = DeliveryItemFormSet(request.POST or None, instance=delivery)  
 
-    if form.is_valid():
+    if form.is_valid() and formset.is_valid():  
         form.save()
+        formset.save()  
         return redirect('delivery_list')
 
     return render(request, 'delivery/form.html', {
-        'form': form
+        'form': form,
+        'formset': formset,  
     })
 
 
-# DELETE (BETTER VERSION)
+# DELETE 
 @login_required(login_url='login')
 def delivery_delete(request, id):
     delivery = get_object_or_404(Delivery, id=id)
@@ -124,6 +130,23 @@ def delivery_delete(request, id):
     return render(request, 'delivery/delete.html', {
         'delivery': delivery
     })
+
+
+#details 
+@login_required(login_url='login')
+def delivery_detail(request, id):
+    delivery = get_object_or_404(Delivery, id=id)
+    items = delivery.deliveryitem_set.all()
+    return render(request, 'delivery/detail.html', {
+        'delivery': delivery,
+        'items': items,
+    })
+@login_required(login_url='login')
+def delivery_mark_delivered(request, id):
+    delivery = get_object_or_404(Delivery, id=id)
+    delivery.statut = "Livré"
+    delivery.save()
+    return redirect('delivery_list')
 #endregion 
 
 #region supplier   

@@ -1,7 +1,8 @@
 from django import forms
+from django.forms import inlineformset_factory
 from .models import Delivery, DeliveryItem,Client,Supplier,Product
 
-#region DeliveryItems
+#region Deliveries
 
 class DeliveryForm(forms.ModelForm):
     class Meta:
@@ -38,7 +39,18 @@ class DeliveryItemForm(forms.ModelForm):
     class Meta:
         model = DeliveryItem
         fields = '__all__'
-       
+DeliveryItemFormSet = inlineformset_factory(
+    Delivery,
+    DeliveryItem,
+    fields=['produit', 'quantite'],
+    extra=1,
+    can_delete=True,
+    min_num=0,
+    widgets={
+        'produit': forms.Select(attrs={'class': 'form-select'}),
+        'quantite': forms.NumberInput(attrs={'class': 'form-control'}),
+    }
+)
 #endregion 
 #region Suppliers
 class SupplierForm(forms.ModelForm):

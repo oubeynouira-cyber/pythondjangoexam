@@ -15,6 +15,8 @@ urlpatterns = [
     path('deliveries/add/', views.delivery_create, name='delivery_add'),
     path('deliveries/update/<int:id>/', views.delivery_update, name='delivery_update'),
     path('deliveries/delete/<int:id>/', views.delivery_delete, name='delivery_delete'),
+    path('deliveries/<int:id>/detail/', views.delivery_detail, name='delivery_detail'),
+    path('deliveries/<int:id>/deliver/', views.delivery_mark_delivered, name='delivery_mark_delivered'),
     #suppliers
     path('suppliers/', views.supplier_list, name='supplier_list'),
     path('suppliers/add/', views.supplier_create, name='supplier_add'),

@@ -1,0 +1,84 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Détail Livraison #{{ delivery.id }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1><i class="bi bi-truck"></i> Livraison #{{ delivery.id }}</h1>
+        <a href="{% url 'delivery_list' %}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Retour
+        </a>
+    </div>
+
+    <!-- Delivery Info -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <p><strong>Client:</strong> {{ delivery.client.nom }} {{ delivery.client.prenom }}</p>
+            <p><strong>Date:</strong> {{ delivery.date_livraison|date:"d/m/Y" }}</p>
+            <p><strong>Statut:</strong>
+                {% if delivery.statut == "Livré" %}
+                    <span class="badge bg-success">{{ delivery.statut }}</span>
+                {% elif delivery.statut == "En cours" %}
+                    <span class="badge bg-warning text-dark">{{ delivery.statut }}</span>
+                {% elif delivery.statut == "Annulé" %}
+                    <span class="badge bg-danger">{{ delivery.statut }}</span>
+                {% endif %}
+            </p>
+        </div>
+    </div>
+
+    <!-- Products -->
+    <h4><i class="bi bi-box-seam"></i> Produits</h4>
+
+    {% if items %}
+    <div class="table-responsive">
+        <table class="table table-hover table-striped align-middle">
+           <thead class="table-dark">
+    <tr>
+        <th>Photo</th>  
+        <th>Produit</th>
+        <th>Quantité</th>
+        <th>Prix Vente</th>
+        <th>Prix Achat</th>
+        <th>Total</th>
+    </tr>
+</thead>
+<tbody>
+    {% for item in items %}
+    <tr>
+        <td>  
+            {% if item.produit.image %}
+                <img src="{{ item.produit.image.url }}" alt="{{ item.produit.nom }}"
+                    width="50" height="50"
+                    style="object-fit: cover; border-radius: 6px;">
+            {% else %}
+                <span class="text-muted">—</span>
+            {% endif %}
+        </td>
+        <td>{{ item.produit.nom }}</td>
+        <td>{{ item.quantite }}</td>
+        <td>{{ item.produit.prix_vente }} TND</td>
+        <td>{{ item.produit.prix_achat }} TND</td>
+        <td><strong>{{ item.quantite|floatformat:0 }} × {{ item.produit.prix_vente }} = {{ item.total |floatformat:2 }} TND</strong></td>
+    </tr>
+    {% endfor %}
+</tbody>
+        </table>
+        <div class="card mt-4">
+    <div class="card-body">
+        <h5><i class="bi bi-calculator"></i> Résumé financier</h5>
+        <p><strong>Total:</strong> {{ delivery.total }} TND</p>
+        <p class="text-success mb-0"><strong>Profit:</strong> {{ delivery.profit }} TND</p>
+    </div>
+</div>
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        <i class="bi bi-info-circle"></i> Aucun produit dans cette livraison.
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

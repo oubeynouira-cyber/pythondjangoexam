@@ -72,17 +72,17 @@
                     </td>
                     <td>{{ product.nom }}</td>
 
-                    <td>
-                        {% if product.qte_stock > 0 %}
-                            <span class="badge bg-success">
-                                {{ product.qte_stock }}
-                            </span>
-                        {% else %}
-                            <span class="badge bg-danger">
-                                Rupture
-                            </span>
-                        {% endif %}
-                    </td>
+                            <td>
+                    {% if product.qte_stock <= 0 %}
+                        <span class="badge bg-secondary">Rupture</span>
+                    {% elif product.qte_stock <= 20 %}
+                        <span class="badge bg-danger">{{ product.qte_stock }}</span>
+                    {% elif product.qte_stock <= 99 %}
+                        <span class="badge bg-warning text-dark">{{ product.qte_stock }}</span>
+                    {% else %}
+                        <span class="badge bg-success">{{ product.qte_stock }}</span>
+                    {% endif %}
+                </td>
 
                     <td>{{ product.prix_achat }} DT</td>
                     <td>{{ product.prix_vente }} DT</td>

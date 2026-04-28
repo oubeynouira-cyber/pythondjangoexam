@@ -11,6 +11,35 @@
 
     {{ form.as_p }}
 
+    <hr>
+    <h5>Produits</h5>
+
+    {{ formset.management_form }}
+    <div id="items-container">
+        {% for item_form in formset %}
+        <div class="row g-2 mb-2 item-row">
+            <div class="col">
+                {{ item_form.produit.label_tag }}
+                {{ item_form.produit }}
+            </div>
+            <div class="col">
+                {{ item_form.quantite.label_tag }}
+                {{ item_form.quantite }}
+            </div>
+            <div class="col-auto d-flex align-items-end">
+                {{ item_form.DELETE }}
+                <label class="ms-1 text-danger">Supprimer</label>
+            </div>
+            {{ item_form.id }}
+        </div>
+        {% endfor %}
+    </div>
+
+    <button type="button" class="btn btn-outline-secondary btn-sm mt-2 mb-3" id="add-item-btn">
+        <i class="bi bi-plus"></i> Ajouter un produit
+    </button>
+
+    <br>
     <button type="submit" class="btn btn-primary">
         Mettre à jour
     </button>
@@ -19,5 +48,29 @@
         Retour
     </a>
 </form>
+
+<script>
+document.getElementById('add-item-btn').addEventListener('click', function () {
+    const container = document.getElementById('items-container');
+    const totalForms = document.getElementById('id_deliveryitem_set-TOTAL_FORMS');
+    const formIndex = parseInt(totalForms.value);
+
+    const firstRow = container.querySelector('.item-row');
+    const newRow = firstRow.cloneNode(true);
+
+    newRow.querySelectorAll('input, select').forEach(el => {
+        el.name = el.name.replace(/-\d+-/, `-${formIndex}-`);
+        el.id = el.id.replace(/-\d+-/, `-${formIndex}-`);
+        el.value = '';
+        if (el.type === 'checkbox') el.checked = false;
+    });
+    newRow.querySelectorAll('label').forEach(el => {
+        if (el.htmlFor) el.htmlFor = el.htmlFor.replace(/-\d+-/, `-${formIndex}-`);
+    });
+
+    container.appendChild(newRow);
+    totalForms.value = formIndex + 1;
+});
+</script>
 
 {% endblock %}
