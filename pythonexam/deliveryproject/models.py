@@ -36,6 +36,7 @@ class Product(models.Model):
     qte_stock = models.IntegerField()
     prix_achat = models.FloatField()
     prix_vente = models.FloatField()
+    image = models.ImageField(upload_to='products/', blank=True, null=True)
 
     fournisseur = models.ForeignKey(Supplier, on_delete=models.CASCADE)
 

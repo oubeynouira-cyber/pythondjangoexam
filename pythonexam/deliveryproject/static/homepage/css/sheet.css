@@ -12,7 +12,7 @@
 
     /* 🔧 STRETCHED HERO */
     .hero {
-        background: linear-gradient(135deg, #0a0f2c, #1c2b5a);
+        background: linear-gradient(135deg, #0a0f2c, #34495e);
         color: white;
         padding: 90px 20px; /* ⬆ increased height */
         text-align: center;
@@ -93,15 +93,15 @@
     }
 
     .footer {
-        background-color: #1c2b5a;
+        background:linear-gradient(135deg, #34495e, #10b981);
         color: #d1d5db;
         margin-top: auto;
         
     }
 
    .footer-top {
-    background: rgba(0, 0, 0, 0.601);
-    color: #fff;
+     background: linear-gradient(135deg, #2c3e50, #34495e);
+    color: #ffffff;
 
 }
 

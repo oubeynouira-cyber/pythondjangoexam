@@ -41,25 +41,42 @@ class DeliveryItemForm(forms.ModelForm):
        
 #endregion 
 #region Suppliers
-
-
 class SupplierForm(forms.ModelForm):
     class Meta:
         model = Supplier
         fields = '__all__'
-
+        widgets = {
+            'nom': forms.TextInput(attrs={'class': 'form-control'}),
+            'adresse': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'telephone': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+        }
 #endregion
 #region Clients
 class ClientForm(forms.ModelForm):
     class Meta:
         model = Client
         fields = '__all__'
+        widgets = {
+            'nom': forms.TextInput(attrs={'class': 'form-control'}),
+            'prenom': forms.TextInput(attrs={'class': 'form-control'}),
+            'adresse': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'telephone': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+        }
 #endregion
 #region Products
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = '__all__'
+        widgets = {
+            'nom': forms.TextInput(attrs={'class': 'form-control'}),
+            'qte_stock': forms.NumberInput(attrs={'class': 'form-control'}),
+            'prix_achat': forms.NumberInput(attrs={'class': 'form-control'}),
+            'prix_vente': forms.NumberInput(attrs={'class': 'form-control'}),
+            'fournisseur': forms.Select(attrs={'class': 'form-select'}),
+        }
 #endregion
 
 

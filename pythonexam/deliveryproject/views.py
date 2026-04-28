@@ -5,6 +5,7 @@ from .forms import ClientForm,DeliveryForm,SupplierForm,ProductForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.core.paginator import Paginator
 from django.db.models import Q
 # HOME
 def delivery_homepage(request):
@@ -63,19 +64,23 @@ def signup_view(request):
 @login_required(login_url='login')
 def delivery_list(request):
     q = request.GET.get('q', '')
-    deliveries = Delivery.objects.all()
+    deliveries = Delivery.objects.all().order_by('id')
 
     if q:
         deliveries = deliveries.filter(
             Q(statut__icontains=q) |
-            Q(client__nom__icontains=q)
+            Q(client__nom__icontains=q) |
+            Q(date_livraison__icontains=q)
         )
 
+    paginator = Paginator(deliveries, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     return render(request, 'delivery/list.html', {
-        'deliveries': deliveries,
+        'deliveries': page_obj,
         'q': q
     })
-
 
 # CREATE (RENAMED to match URL)
 @login_required(login_url='login')
@@ -126,7 +131,7 @@ def delivery_delete(request, id):
 @login_required(login_url='login')
 def supplier_list(request):
     q = request.GET.get('q', '')
-    suppliers = Supplier.objects.all()
+    suppliers = Supplier.objects.all().order_by('id')
     
     if q:
         suppliers = suppliers.filter(
@@ -136,8 +141,12 @@ def supplier_list(request):
             Q(telephone__icontains=q)
         )
     
+    paginator = Paginator(suppliers, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     return render(request, 'supplier/list.html', {
-        'suppliers': suppliers,
+        'suppliers': page_obj,
         'q': q
     })
 #CREATE
@@ -187,12 +196,11 @@ def supplier_delete(request, id):
 @login_required(login_url='login')
 def product_list(request):
     q = request.GET.get('q', '')
-    products = Product.objects.all()
+    products = Product.objects.all().order_by('id')
 
     if q:
         filters = Q(nom__icontains=q) | Q(fournisseur__nom__icontains=q)
 
-        # only add numeric filters if q is a number
         try:
             q_num = float(q)
             filters |= Q(prix_achat=q_num) | Q(prix_vente=q_num) | Q(qte_stock=q_num)
@@ -201,15 +209,19 @@ def product_list(request):
 
         products = products.filter(filters)
 
+    paginator = Paginator(products, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     return render(request, 'product/list.html', {
-        'products': products,
+        'products': page_obj,
         'q': q
     })
 
 # CREATE
 @login_required(login_url='login')
 def product_create(request):
-    form = ProductForm(request.POST or None)
+    form = ProductForm(request.POST or None, request.FILES or None)  # hedhy lel request.FILES
 
     if form.is_valid():
         form.save()
@@ -223,7 +235,7 @@ def product_create(request):
 @login_required(login_url='login')
 def product_update(request, id):
     product = get_object_or_404(Product, id=id)
-    form = ProductForm(request.POST or None, instance=product)
+    form = ProductForm(request.POST or None, request.FILES or None, instance=product)  # hedhy lel request.FILES
 
     if form.is_valid():
         form.save()
@@ -249,12 +261,11 @@ def product_delete(request, id):
 #endregion
 
 #region client 
-
-# LIST
+#Liste 
 @login_required(login_url='login')
 def client_list(request):
     q = request.GET.get('q', '')
-    clients = Client.objects.all()
+    clients = Client.objects.all().order_by('id')
 
     if q:
         clients = clients.filter(
@@ -265,8 +276,12 @@ def client_list(request):
             Q(adresse__icontains=q)
         )
 
+    paginator = Paginator(clients, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     return render(request, 'client/list.html', {
-        'clients': clients,
+        'clients': page_obj,
         'q': q
     })
 # CREATE

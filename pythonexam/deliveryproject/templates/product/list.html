@@ -48,6 +48,7 @@
             <thead class="table-dark">
                 <tr>
                     <th>#</th>
+                    <th>Photo</th>
                     <th>Nom</th>
                     <th>Stock</th>
                     <th>Prix Achat</th>
@@ -61,7 +62,14 @@
                 {% for product in products %}
                 <tr>
                     <td><strong>#{{ product.id }}</strong></td>
-
+                    <td>{% if product.image %}
+                            <img src="{{ product.image.url }}" alt="{{ product.nom }}"
+                                width="50" height="50"
+                                style="object-fit: cover; border-radius: 6px;">
+                        {% else %}
+                            <span class="text-muted">—</span>
+                        {% endif %}
+                    </td>
                     <td>{{ product.nom }}</td>
 
                     <td>
@@ -103,6 +111,43 @@
 
         </table>
     </div>
+
+    <!-- Pagination -->
+    <nav class="mt-4">
+        <ul class="pagination justify-content-center">
+            {% if products.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">
+                        <i class="bi bi-chevron-double-left"></i>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ products.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">
+                        Précédent
+                    </a>
+                </li>
+            {% endif %}
+
+            <li class="page-item active">
+                <span class="page-link">
+                    Page {{ products.number }} sur {{ products.paginator.num_pages }}
+                </span>
+            </li>
+
+            {% if products.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ products.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">
+                        Suivant
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ products.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">
+                        <i class="bi bi-chevron-double-right"></i>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
     {% endif %}
 
     <!-- Stats -->
@@ -115,7 +160,7 @@
                         <i class="bi bi-graph-up"></i> Résumé
                     </h5>
                     <p>
-                        <strong>Total:</strong> {{ products|length }} produit(s)
+                        <strong>Total:</strong> {{ products.paginator.count }} produit(s)
                     </p>
                 </div>
             </div>
